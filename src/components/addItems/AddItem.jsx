@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 const AddItem = () => {
   const [formData, setFormData] = useState({
     itemCode: '257427',
-    item: 'Pen Black',
-    brand: 'Kaluma',
+    item: '',
+    brand: '',
     unitPrice: 0,
     unitOfMeasurement: 'Each',
     hasThreshold: 'true',
@@ -12,9 +12,10 @@ const AddItem = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     console.log(formData);
 
-    fetch("/items", {
+    fetch("http://localhost:3000/items", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -24,11 +25,13 @@ const AddItem = () => {
     })
       .then((res) => res.json())
       .then((newFormData) => {
-        console.log(newFormData); // This will show the response from the server after the item is added.
+        console.log(newFormData); 
       })
       .catch((error) => {
         console.log('Error submitting item', error);
       });
+      event.target.reset();
+      window.location.reload()
   };
 
   const handleChange = (e) => {
@@ -128,6 +131,7 @@ const AddItem = () => {
           </button>
         </div>
       </div>
+      
     </form>
   );
 };
