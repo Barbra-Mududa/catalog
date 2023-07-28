@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "itemCode": "67",
+      "item": "Pen Red",
+      "brand": "Bic",
+      "unitPrice": "50",
+      "unitOfMeasurement": "Each",
+      "hasThreshold": "true",
+      "id": 1
+    },
+    {
+      "itemCode": "37",
+      "item": "Paper Red",
+      "brand": "Pelikan",
+      "unitPrice": "50",
+      "unitOfMeasurement": "Each",
+      "hasThreshold": "false",
+      "id": 2
+    }
+  ]
+}
