@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { ArrowLeftIcon, SignalIcon, FolderPlusIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import AddItem from '../addItems/AddItem';
+// import Catalog from '../../pages/Catalog';
 
 const Header = () => {
   const navigate = useNavigate();
   const [openAddItem, setOpenAddItem] = useState(false)
+  // const [formData, setFormData] = useState([])
 
   const handleOpenClick =() => {
     setOpenAddItem(true)
@@ -13,6 +15,10 @@ const Header = () => {
   const handleCloseClick =() => {
     setOpenAddItem(false)
   }
+
+    // const handleSubmit = (data) => {
+    //   setFormData([...formData, data])
+    // }
 
   return (
     <nav className='h-fit flex flex-col'>
@@ -46,7 +52,8 @@ const Header = () => {
           {openAddItem && (
             <div className='fixed h-full top-0 right-0 left-0 flex items-start justify-end'>
                 <div className='flex flex-row w-3/6  bg-white p-4 rounded-lg'>
-                    <AddItem />
+                    <AddItem /> 
+                    {/* onSubmit={handleSubmit} */}
                     <button className="absolute top-3 right-4 items-center justify-center border border-gray-400 rounded-full py-1 px-1"
                     onClick={handleCloseClick}>
                         <XMarkIcon className='w-4 h-4 bg-grey-200'/>
@@ -56,6 +63,7 @@ const Header = () => {
           )}
         </div>
       </div>
+      {/* <Catalog formData={formData}/> */}
     </nav>
   );
 }
