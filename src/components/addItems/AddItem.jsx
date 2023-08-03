@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { XMarkIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 
-const AddItem = () => {
-  const [formData, setFormData] = useState({
+const AddItem = ({ itemData, onFormSubmit, onClose }) => { 
+  const [formData, setFormData] = useState(itemData || {
     itemCode: '257427',
     item: '',
     brand: '',
-    unitPrice: 0,
+    unitPrice: '0',
     unitOfMeasurement: 'Each',
     hasThreshold: 'true',
   });
+  const [popUp, setPopUp] = useState(false)
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    setFormData(itemData || {
+      itemCode: '257427',
+      item: '',
+      brand: '',
+      unitPrice: '0',
+      unitOfMeasurement: 'Each',
+      hasThreshold: 'true',
+    })
+  }, [itemData])
+
+
+  const handleFormSubmit = (event) => {
     event.preventDefault();
-    
+
     console.log(formData);
 
     fetch("http://localhost:3000/items", {
@@ -25,14 +39,22 @@ const AddItem = () => {
     })
       .then((res) => res.json())
       .then((newFormData) => {
-        console.log(newFormData); 
+        console.log(newFormData);
+        // Call onFormSubmit with the newFormData
+        onFormSubmit(newFormData);
+        setPopUp(true); // Show the success pop-up
       })
       .catch((error) => {
         console.log('Error submitting item', error);
       });
-      event.target.reset();
-      window.location.reload()
+
+    event.target.reset();
+    window.location.reload()
   };
+
+  
+  // setPopUp(true)
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,8 +65,13 @@ const AddItem = () => {
     console.log(formData);
   };
 
+
+  // const handleButonClicked = () => {
+  //   setPopUp(true)
+  // }
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <div className='mt-4 h-screen'>
         <h2 className='text-xl font-Lato font-bold'>Add Item</h2>
         <div>
@@ -82,6 +109,7 @@ const AddItem = () => {
               onChange={handleChange}
               required
             >
+              <option>Kaluma</option>
               <option>Kaluma</option>
               <option>Bic</option>
               <option>Pelikan</option>
@@ -126,14 +154,36 @@ const AddItem = () => {
           <button
             type='submit'
             className='w-full mt-4 items-center  border border-gray-500 border-solid border-opacity-30 rounded-lg p-2 bg-secondary text-white shadow-md'
+          // onClick={handleButonClicked}
           >
             Save to Catalogue
           </button>
+          {popUp && (
+        <div className="absolute bg-secondary border-l-4 border-grey/500 p-4 mb-4" role="alert">
+          <div className="mr-4">
+            <InformationCircleIcon className='h-4 w-4' />
+          </div>
+          <div>
+            <span className="block font-semibold">Item added successfully</span>
+            <div>
+              <h3>Close</h3>
+              <button className="mt-2 px-2 py-1 rounded-md bg-grey/500" onClick={() => {
+                setPopUp(false);
+                onClose(); 
+              }}>
+                <XMarkIcon className='h-4 w-4' />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
         </div>
       </div>
-      
     </form>
   );
 };
 
 export default AddItem;
+
