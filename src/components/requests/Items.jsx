@@ -1,72 +1,78 @@
-import React, { useEffect, useState } from 'react';
-import { MagnifyingGlassIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
+import React, { useState } from 'react';
+import { PencilSquareIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import AddItem from '../addItems/AddItem';
 
-const Items = () => {
-  const [formData, setFormData] = useState([]);
-  
-  useEffect(() =>{
-    fetch("./items")
-    .then((res) => res.json())
-    .then((response) => setFormData(response));
-  },[])
+function Items({ formData, handleEdit, handleDelete }) {
+  const [editForm, setEditForm] = useState(false);
+  const [itemSelected, setItemSelected] = useState(null);
+  const [formDat, setFormData] = useState([]);
 
-  const handleDelete = async (e) => {
-    const id = e.target.id;
-    await fetch("http://localhost:3000/items" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setFormData(formData.filter((data) => data.id !== id));
+
+  const edit = (item) => {
+    setItemSelected(item);
+    setEditForm(true);
   };
 
-    const items = formData.map((data) => {
-      return (
-        <div key = {data.id} className='w-full flex-row'>
-          <div className='flex-col'>
-            <h3>{data.itemCode}</h3>
-            <p id={data.id}>{data.item}</p>
-          </div>
-          <div className='flex-col'>
-            <h3>Brand</h3>
-            <p>{data.brand}</p>
-          </div>
-          <div className='flex-col'>
-            <h3>UoM</h3>
-            <p>{data.unitOfMeasurement}</p>
-          </div>
-          <div className='flex-col'>
-            <h3>Unit Price</h3>
-            <p>{data.unitPrice}</p>
-          </div>
-          <div className='flex'>
-            <buton className="delete-btn" onClick={handleDelete} id={data.id}>
-              <TrashIcon />
-            </buton>
-            <button>
-              <PencilIcon />
-            </button>
-          </div>
-        </div>
-      )
-    })
+  const handleFormSubmit = (newFormData) => {
+    setFormData((prevData) =>
+      prevData.map((data) => (data.id === newFormData.id ? newFormData : data))
+    );
+  };
+ 
+  const handleCloseClick = () => {
+    setEditForm(false)
+  }
 
   return (
-    <div className='container mx-auto mt-8'>
-        <div className='relative'>
-          <input type='text' 
-                className='w-50% px-3 py-2 border rounded-lg focus:border-2 focus:shadow-sm focus:outline-none pl-10'
-                placeholder='Search name, brand'
-          />
-          <MagnifyingGlassIcon className='h-6 w-6 text-grey/500 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none' fill="none" viewBox='0 0 24 24'/>
+    <div>
+      {formData.map((data) => (
+        <div key={data.id}>
+          <div className='w-full lg:w-11/12 bg-white shadow-md lg:shadow-none border border-grey/200 rounded-md flex flex-col lg:flex-row p-5 justify-between lg:items-center mb-3'>
+            <div className='flex flex-col lg:flex-row justify-between lg:items-center items-start lg:w-10/12 grid grid-cols-4 gap-4 mt-4'>
+              <div className='w-full  flex flex-col '>
+                <div className='text-grey/500'>{data.itemCode}</div>
+                <div className='font-semibold'>{data.item}</div>
+              </div>
+
+              <div className='w-full flex flex-col '>
+                <div className='text-grey/500'>Brand</div>
+                <div className='font-semibold'>{data.brand}</div>
+              </div>
+
+              <div className='w-full flex flex-col '>
+                <div className='text-grey/500 '>UoM</div>
+                <div className='font-semibold'>{data.unitOfMeasurement}</div>
+              </div>
+              <div className='w-full flex flex-col'>
+                <div className='text-grey/500'>Unit Price</div>
+                <div className='font-semibold'>KES {data.unitPrice}</div>
+              </div>
+            </div>
+
+            <div className='flex flex-col lg:flex-row lg:justify-end lg:w-6/12'>
+              <div className='flex items-center justify-end my-5 lg:my-0 lg:py-1 lg:w-6/12'>
+                <button className='rounded-full mr-2' onClick={() => edit(data)}>
+                  <PencilSquareIcon className='h-6 w-6 text-secondary' />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3 className='text-base text-sm text-grey/500'>Showing 1 items </h3>
+      ))}
+
+      {editForm && itemSelected && (
+        <div className='fixed h-full top-0 right-0 left-0 flex items-start justify-end'>
+          <div className='flex flex-row w-2/6  bg-white p-4 rounded-lg'>
+            <AddItem itemData={itemSelected} onFormSubmit={handleFormSubmit} onClose={handleCloseClick}/>
+          </div>
+          <button className="absolute top-3 right-4 shadow-sm shadow-white items-center justify-center border border-gray-400 rounded-full py-1 px-1"
+            onClick={handleCloseClick}>
+            <XMarkIcon className='w-4 h-4 bg-grey-200' />
+          </button>
         </div>
-        <div>{items}</div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Items
+export default Items;
