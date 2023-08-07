@@ -29,7 +29,7 @@ const AddItem = ({ itemData, onFormSubmit, onClose }) => {
 
     console.log(formData);
 
-    fetch("http://localhost:3000/items", {
+    fetch("/./src/data/data.js", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -40,16 +40,14 @@ const AddItem = ({ itemData, onFormSubmit, onClose }) => {
       .then((res) => res.json())
       .then((newFormData) => {
         console.log(newFormData);
-        // Call onFormSubmit with the newFormData
         onFormSubmit(newFormData);
-        setPopUp(true); // Show the success pop-up
+        setPopUp(true);
       })
       .catch((error) => {
         console.log('Error submitting item', error);
       });
-
     event.target.reset();
-    window.location.reload()
+    // window.location.reload()
   };
 
   
@@ -58,8 +56,8 @@ const AddItem = ({ itemData, onFormSubmit, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((data) => ({
-      ...data,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
     }));
     console.log(formData);
