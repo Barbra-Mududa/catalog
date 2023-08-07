@@ -69,7 +69,9 @@ const Catalog: React.FC= () => {
 }
 
 export default Catalog;
-// Type '(e: React.MouseEvent<HTMLButtonElement>) => Promise<void>' is not assignable to type '(item: Item) => void'.
-//   Types of parameters 'e' and 'item' are incompatible.
-//     Type 'Item' is missing the following properties from type 'MouseEvent<HTMLButtonElement, MouseEvent>': altKey, button, buttons, clientX, and 29 more.ts(2322)
-// Items.tsx(17, 3): The expected type comes from property 'handleDelete' which is declared here on type 'IntrinsicAttributes & ItemsProps'
+// Type '(item: ItemData) => void' is not assignable to type '(id: string) => void'.
+//   Types of parameters 'item' and 'id' are incompatible.
+//     Type 'string' is not assignable to type 'ItemData'.ts(2322)
+// Items.tsx(16, 3): The expected type comes from property 'handleEdit' 
+//   which is declared here on type 'IntrinsicAttributes & ItemsProps'
+// (property) ItemsProps.handleEdit: (id: string) => void& ItemsProps'
