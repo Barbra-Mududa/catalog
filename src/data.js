@@ -1,36 +1,33 @@
-// import {
-//     ArrowLeft,
-//     Bars3CenterLeftIcon,
-//     FolderPlusIcon
-//     LinkIcon
-// } from '@heroicons/react/24/outline';
+const projectData =  [
+    
+          {
+            "id": 1,
+            "itemCode": "67",
+            "item": "Pen Red",
+            "brand": "Bic",
+            "unitPrice": "50",
+            "unitOfMeasurement": "Each",
+            "hasThreshold": "true",
+          },
+          {
+            "id": 2,
+            "itemCode": "257427",
+            "item": "Pen White",
+            "brand": "Pelikan",
+            "unitPrice": "40",
+            "unitOfMeasurement": "Each",
+            "hasThreshold": "true",
+          },
+          {
+            "id": 3,
+            "itemCode": "257427",
+            "item": "Pen Purple",
+            "brand": "Pelikan",
+            "unitPrice": "40",
+            "unitOfMeasurement": "Each",
+            "hasThreshold": "false",
+          }
 
-// export const buttons = [
-//     {
-//       text: 'arrowLeft',
-//       color: 'bg-gray-300 text-gray-500 hover:bg-gray-200',
-//     },
-//     {
-//       text: 'otherButtons',
-//       color: 'bg-gray-200 text-gray-500 hover:bg-gray-300',
-//     },
-//     {
-//       text: 'addItem',
-//       color: 'bg-gray-500 text-white hover:bg-gray-400',
-//     },
-// ];
+]
+export default projectData
 
-// export const icons =[
-//     {
-//         icon:'Bars3CenterLeftIcon',
-//         href:''
-//     },
-//     {
-//         icon:'FolderPlusIcon',
-//         href:''
-//     },
-//     {
-//         icon: 'ArrowLeft',
-//         href:''
-//     }
-// ]
