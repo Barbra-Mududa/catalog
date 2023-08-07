@@ -69,3 +69,8 @@ const Catalog: React.FC= () => {
 }
 
 export default Catalog;
+// Type 'ItemData[]' is not assignable to type 'Item[]'.
+//   Type 'ItemData' is not assignable to type 'Item'.
+//     Types of property 'id' are incompatible.
+//       Type 'string' is not assignable to type 'number'.ts(2322)
+// Items.tsx(15, 3): The expected type comes from property 'formData' which is declared here on type 'IntrinsicAttributes & ItemsProps'
