@@ -3,12 +3,18 @@ import { ArrowRightIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline
 import Layout from '../components/layout/Layout';
 import Items from '../components/requests/Items';
 import projectData from '../data/data';
+import {  useDispatch } from 'react-redux';
+import { increment } from '../actions';
 
 const Catalog = () => {
   const [formData, setFormData] = useState([]);
+  const [totalItems, setTotalItems] = useState(0); 
+  const dispatch = useDispatch();
+  // const count = useSelector(state => state.count);
+
 
   useEffect(() => {
-    fetch("/./src/data/data.js")
+    fetch("http://localhost:3000/items")
     .then((res) => res.json())
     .then((r) => setFormData(r) )
     .catch((error) => {
@@ -19,7 +25,7 @@ const Catalog = () => {
 
   const handleDelete = async (e) => {
     const id = e.currentTarget.id;
-    await fetch("/./src/data/data.js" + id, {
+    await fetch("http://localhost:3000/items" + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -32,6 +38,12 @@ const Catalog = () => {
     setFormData((prevData) =>
       prevData.map((data) => (data.id === item.id ? item : data))
     );
+  };
+
+  const handleFormSubmit = (newFormData) => {
+    dispatch(increment());
+    setFormData([...formData, newFormData]);
+    setTotalItems(prevTotalItems => prevTotalItems + 1);
   };
 
 
@@ -59,9 +71,9 @@ const Catalog = () => {
               <MagnifyingGlassIcon className='h-6 w-6 text-grey/500 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none' fill="none" viewBox='0 0 24 24' />
             </div>
             <div>
-              <h3 className='text-base text-sm text-grey/500 mt-4 mb-4'>Showing 2 items </h3>
+              <h3 className='text-base text-sm text-grey/500 mt-4 mb-4'>Showing {totalItems} items </h3>
             </div>
-            <Items formData={formData} handleDelete={handleDelete} handleEdit={handleEdit} />
+            <Items formData={formData} handleDelete={handleDelete} handleEdit={handleEdit} handleFormSubmit= {handleFormSubmit} />
           </div>
         )}
       </div>
@@ -71,4 +83,5 @@ const Catalog = () => {
 
 
 export default Catalog;
+
 
