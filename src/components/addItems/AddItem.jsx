@@ -29,7 +29,7 @@ const AddItem = ({ itemData, onFormSubmit, onClose }) => {
 
     console.log(formData);
 
-    fetch("/./src/data/data.js", {
+    fetch(" http://localhost:3000/items", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const AddItem = ({ itemData, onFormSubmit, onClose }) => {
         console.log('Error submitting item', error);
       });
     event.target.reset();
-    // window.location.reload()
+    window.location.reload()
   };
 
   
